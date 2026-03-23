@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Creams | SHINE</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header class="glass-nav">
+        <a href="index.html" class="logo" style="text-decoration: none;">SHINE</a>
+        <nav>
+            <a href="science.html">The Science</a>
+            <div class="dropdown">
+                <a href="#" class="dropbtn">Shop</a>
+                <div class="dropdown-content">
+                    <a href="serums.html">Serums</a>
+                    <a href="creams.html">Creams</a>
+                    <a href="sunscreens.html">Sunscreens</a>
+                    <a href="lotions.html">Lotions</a>
+                    <a href="moisturizers.html">Moisturizers</a>
+                </div>
+            </div>
+            <a href="story.html">Our Story</a>
+        </nav>
+        <div class="nav-actions">
+            <a href="cart-orders.html" class="cart-btn">Cart</a>
+        </div>
+    </header>
+
+    <main>
+        <section class="page-header">
+            <h1>Luxurious Cremes</h1>
+            <p>Rich, restorative moisture that locks in luminosity while feeling soft as a cloud. Engineered to rebuild the lipid barrier without the heaviness of traditional moisturizers.</p>
+        </section>
+        <section class="content-section">
+            <div class="product-grid">
+                <div class="product-card">
+                    <img src="assets/cream.png" alt="The Gravity Whip" style="width: 100%; height: 250px; object-fit: cover; border-radius: 12px; margin-bottom: 1.5rem;">
+                    <h3>The Gravity Whip</h3>
+                    <p>A soufflé-light cream that defies gravity, lifting contours overnight. Whipped to perfection with botanical ceramides and firming marine extracts, this night treatment restores elasticity by morning and minimizes fine lines drastically.</p>
+                    <div class="price">₹2,199</div>
+                    <button class="btn-primary" onclick="addToCart('The Gravity Whip', 2199, 'assets/cream.png', '50ml')" style="padding: 0.8rem 1.5rem; width: 100%;">Add to Cart</button>
+                </div>
+                <div class="product-card">
+                    <img src="assets/cream.png" alt="Cloud Barrier" style="width: 100%; height: 250px; object-fit: cover; border-radius: 12px; margin-bottom: 1.5rem;">
+                    <h3>Cloud Barrier</h3>
+                    <p>A dense but airy protective barrier cream that melts instantly into the skin. Defends against urban pollution, free radicals, and blue light while locking in your serum's active ingredients for 24-hour weightless protection.</p>
+                    <div class="price">₹1,599</div>
+                    <button class="btn-primary" onclick="addToCart('Cloud Barrier', 1599, 'assets/cream.png', '50ml')" style="padding: 0.8rem 1.5rem; width: 100%;">Add to Cart</button>
+                </div>
+                <div class="product-card">
+                    <img src="assets/cream.png" alt="Eclipse Eye Soufflé" style="width: 100%; height: 250px; object-fit: cover; border-radius: 12px; margin-bottom: 1.5rem;">
+                    <h3>Eclipse Eye Soufflé</h3>
+                    <p>An ultra-targeted treatment for the delicate orbital bone. Erases dark circles and minimizes puffiness using encapsulated caffeine and light-diffusing pearl powder. Restores an alert, youthful gaze after a single application.</p>
+                    <div class="price">₹999</div>
+                    <button class="btn-primary" onclick="addToCart('Eclipse Eye Soufflé', 999, 'assets/cream.png', '15ml')" style="padding: 0.8rem 1.5rem; width: 100%;">Add to Cart</button>
+                </div>
+            </div>
+        </section>
+    </main>
+    <script src="auth.js"></script>
+</body>
+</html>

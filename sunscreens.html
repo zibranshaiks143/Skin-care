@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="SHINE Luxury Skincare - Sunscreens for uncompromised protection.">
+    <title>SHINE | Sunscreens</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header class="glass-nav">
+        <a href="index.html" class="logo" style="text-decoration: none;">SHINE</a>
+        <nav>
+            <a href="science.html">The Science</a>
+            <div class="dropdown">
+                <a href="#" class="dropbtn">Shop</a>
+                <div class="dropdown-content">
+                    <a href="serums.html">Serums</a>
+                    <a href="creams.html">Creams</a>
+                    <a href="sunscreens.html">Sunscreens</a>
+                    <a href="lotions.html">Lotions</a>
+                    <a href="moisturizers.html">Moisturizers</a>
+                </div>
+            </div>
+            <a href="story.html">Our Story</a>
+        </nav>
+        <div class="nav-actions">
+            <a href="cart-orders.html" class="cart-btn">Cart</a>
+        </div>
+    </header>
+
+    <main>
+        <div class="page-header">
+            <span class="eyebrow">Invisible Shield</span>
+            <h1>Sunscreens</h1>
+            <p>Weightless defense against the elements. Our sunscreens merge high-performance SPF with skincare benefits, leaving behind nothing but a radiant glow.</p>
+        </div>
+
+        <section class="content-section">
+            <div class="product-grid">
+                <div class="product-card glass-card">
+                    <img src="assets/sunscreen.png" alt="Invisible Defense SPF 50" style="width: 100%; height: 250px; object-fit: cover; border-radius: 12px; margin-bottom: 1.5rem;">
+                    <h3>Invisible Defense SPF 50</h3>
+                    <p>100ml / 3.4 fl. oz.</p>
+                    <div class="price">₹899</div>
+                    <button class="btn-primary" onclick="addToCart('Invisible Defense SPF 50', 899, 'assets/sunscreen.png', '100ml')" style="width: 100%; padding: 1rem;">Add to Cart</button>
+                </div>
+                
+                <div class="product-card glass-card">
+                    <img src="assets/sunscreen.png" alt="Luminous Tinted Sunscreen" style="width: 100%; height: 250px; object-fit: cover; border-radius: 12px; margin-bottom: 1.5rem;">
+                    <h3>Luminous Tinted Sunscreen</h3>
+                    <p>50ml / 1.7 fl. oz.</p>
+                    <div class="price">₹799</div>
+                    <button class="btn-primary" onclick="addToCart('Luminous Tinted Sunscreen', 799, 'assets/sunscreen.png', '50ml')" style="width: 100%; padding: 1rem;">Add to Cart</button>
+                </div>
+
+                <div class="product-card glass-card">
+                    <img src="assets/sunscreen.png" alt="Zero-Gravity Sun Stick" style="width: 100%; height: 250px; object-fit: cover; border-radius: 12px; margin-bottom: 1.5rem;">
+                    <h3>Zero-Gravity Sun Stick</h3>
+                    <p>20g / 0.7 oz.</p>
+                    <div class="price">₹599</div>
+                    <button class="btn-primary" onclick="addToCart('Zero-Gravity Sun Stick', 599, 'assets/sunscreen.png', '20g')" style="width: 100%; padding: 1rem;">Add to Cart</button>
+                </div>
+            </div>
+        </section>
+    </main>
+    <script src="auth.js"></script>
+</body>
+</html>
