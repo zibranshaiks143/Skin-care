@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="SHINE Luxury Skincare - The Complete Collection.">
+    <title>All Products | SHINE</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <script src="auth.js"></script>
+    <style>
+        .square-card {
+            aspect-ratio: 1 / 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: relative;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 12px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.05);
+            backdrop-filter: blur(10px);
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .square-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.1);
+        }
+        .square-card img {
+            width: 100%;
+            height: 55%;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+        .square-card h3 {
+            font-size: 1.1rem;
+            margin: 0.5rem 0 0.2rem 0;
+            text-align: center;
+            line-height: 1.2;
+            flex-grow: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .card-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: auto;
+        }
+        .card-price {
+            font-family: var(--font-heading);
+            font-size: 1.2rem;
+            color: var(--color-gold);
+            font-weight: 500;
+        }
+        .offer-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: var(--color-gold);
+            color: #fff;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            z-index: 2;
+        }
+        .btn-add {
+            background-color: var(--color-dark);
+            color: var(--color-light);
+            border: none;
+            padding: 0.6rem 1.2rem;
+            font-family: var(--font-body);
+            font-size: 0.85rem;
+            font-weight: 500;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .btn-add:hover {
+            background-color: var(--color-gold);
+        }
+        .product-grid {
+            gap: 2rem;
+        }
+    </style>
+</head>
+<body>
+    <header class="glass-nav">
+        <div class="announcement-bar">
+            <button class="nav-arrow prev" aria-label="Previous">&#10094;</button>
+            <div class="announcement-widget">
+                <img src="assets/lotion.png" alt="Shipping">
+                <span>Complimentary shipping on orders over ₹5,000</span>
+            </div>
+            <div class="announcement-widget">
+                <img src="assets/serum.png" alt="Collection">
+                <span>New Collection: 24k Champagne Gold Ritual</span>
+            </div>
+            <div class="announcement-widget">
+                <img src="assets/quiz_hero.png" alt="Quiz">
+                <span>Find Your Perfect Ritual: <a href="skin-quiz.html">Take the Skin Quiz</a></span>
+            </div>
+            <div class="announcement-widget">
+                <img src="assets/cream.png" alt="Consultation">
+                <span>Discover Your Glow: <a href="skin-quiz.html">Try Our AI Skin Analysis</a></span>
+            </div>
+            <button class="nav-arrow next" aria-label="Next">&#10095;</button>
+        </div>
+        <div class="nav-main">
+            <a href="index.html" class="logo" style="text-decoration: none;">SHINE</a>
+            <nav>
+                <a href="science.html">The Science</a>
+                <div class="dropdown">
+                    <a href="all-products.html" class="dropbtn">Shop</a>
+                    <div class="dropdown-content">
+                        <a href="all-products.html">All Products</a>
+                        <a href="serums.html">Serums</a>
+                        <a href="creams.html">Creams</a>
+                        <a href="sunscreens.html">Sunscreens</a>
+                        <a href="lotions.html">Lotions</a>
+                        <a href="moisturizers.html">Moisturizers</a>
+                    </div>
+                </div>
+                <a href="story.html">Our Story</a>
+                <a href="skin-quiz.html">Skin Quiz</a>
+            </nav>
+            <div class="nav-actions">
+                <a href="cart-orders.html" class="cart-btn">Cart</a>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section class="page-header">
+            <span class="eyebrow">The Complete Collection</span>
+            <h1>All Products</h1>
+            <p>Discover our complete collection of luxury skincare. Formulated to defy constraints and embrace your natural radiance.</p>
+        </section>
+        <section class="content-section">
+            <div class="product-grid">
+                <!-- Serums -->
+                <div class="square-card">
+                    <div class="offer-badge">10% OFF</div>
+                    <img src="assets/serum.png" alt="SHINE Hyaluronic Suspension">
+                    <h3>SHINE Hyaluronic Suspension</h3>
+                    <div class="card-footer">
+                        <div class="card-price">₹1,499</div>
+                        <button class="btn-add" onclick="addToCart('SHINE Hyaluronic Suspension', 1499, 'assets/serum.png', '30ml')">Add</button>
+                    </div>
+                </div>
+                <div class="square-card">
+                    <img src="assets/serum.png" alt="SHINE Silk Peptides">
+                    <h3>SHINE Silk Peptides</h3>
+                    <div class="card-footer">
+                        <div class="card-price">₹1,699</div>
+                        <button class="btn-add" onclick="addToCart('SHINE Silk Peptides', 1699, 'assets/serum.png', '50ml')">Add</button>
+                    </div>
+                </div>
+                <div class="square-card">
+                    <div class="offer-badge">BESTSELLER</div>
+                    <img src="assets/serum.png" alt="SHINE 24k Champagne Gold">
+                    <h3>SHINE 24k Champagne Gold</h3>
+                    <div class="card-footer">
+                        <div class="card-price">₹1,999</div>
+                        <button class="btn-add" onclick="addToCart('SHINE 24k Champagne Gold', 1999, 'assets/serum.png', '30ml')">Add</button>
+                    </div>
+                </div>
+
+                <!-- Creams -->
+                <div class="square-card">
+                    <img src="assets/cream.png" alt="The Gravity Whip">
+                    <h3>The Gravity Whip</h3>
+                    <div class="card-footer">
+                        <div class="card-price">₹2,199</div>
+                        <button class="btn-add" onclick="addToCart('The Gravity Whip', 2199, 'assets/cream.png', '50ml')">Add</button>
+                    </div>
+                </div>
+                <div class="square-card">
+                    <div class="offer-badge">NEW</div>
+                    <img src="assets/cream.png" alt="Cloud Barrier">
+                    <h3>Cloud Barrier</h3>
+                    <div class="card-footer">
+                        <div class="card-price">₹1,599</div>
+                        <button class="btn-add" onclick="addToCart('Cloud Barrier', 1599, 'assets/cream.png', '50ml')">Add</button>
+                    </div>
+                </div>
+                <div class="square-card">
+                    <img src="assets/cream.png" alt="Eclipse Eye Soufflé">
+                    <h3>Eclipse Eye Soufflé</h3>
+                    <div class="card-footer">
+                        <div class="card-price">₹999</div>
+                        <button class="btn-add" onclick="addToCart('Eclipse Eye Soufflé', 999, 'assets/cream.png', '15ml')">Add</button>
+                    </div>
+                </div>
+
+                <!-- Sunscreens -->
+                <div class="square-card">
+                    <img src="assets/sunscreen.png" alt="Invisible Defense SPF 50">
+                    <h3>Invisible Defense SPF 50</h3>
+                    <div class="card-footer">
+                        <div class="card-price">₹899</div>
+                        <button class="btn-add" onclick="addToCart('Invisible Defense SPF 50', 899, 'assets/sunscreen.png', '100ml')">Add</button>
+                    </div>
+                </div>
+                <div class="square-card">
+                    <div class="offer-badge">15% OFF</div>
+                    <img src="assets/sunscreen.png" alt="Luminous Tinted Sunscreen">
+                    <h3>Luminous Tinted Sunscreen</h3>
+                    <div class="card-footer">
+                        <div class="card-price">₹799</div>
+                        <button class="btn-add" onclick="addToCart('Luminous Tinted Sunscreen', 799, 'assets/sunscreen.png', '50ml')">Add</button>
+                    </div>
+                </div>
+                <div class="square-card">
+                    <img src="assets/sunscreen.png" alt="Zero-Gravity Sun Stick">
+                    <h3>Zero-Gravity Sun Stick</h3>
+                    <div class="card-footer">
+                        <div class="card-price">₹599</div>
+                        <button class="btn-add" onclick="addToCart('Zero-Gravity Sun Stick', 599, 'assets/sunscreen.png', '20g')">Add</button>
+                    </div>
+                </div>
+
+                <!-- Lotions -->
+                <div class="square-card">
+                    <img src="assets/lotion.png" alt="Cashmere Body Lotion">
+                    <h3>Cashmere Body Lotion</h3>
+                    <div class="card-footer">
+                        <div class="card-price">₹1,299</div>
+                        <button class="btn-add" onclick="addToCart('Cashmere Body Lotion', 1299, 'assets/lotion.png', '250ml')">Add</button>
+                    </div>
+                </div>
+                <div class="square-card">
+                    <div class="offer-badge">BESTSELLER</div>
+                    <img src="assets/lotion.png" alt="Botanical Firming Lotion">
+                    <h3>Botanical Firming Lotion</h3>
+                    <div class="card-footer">
+                        <div class="card-price">₹1,499</div>
+                        <button class="btn-add" onclick="addToCart('Botanical Firming Lotion', 1499, 'assets/lotion.png', '200ml')">Add</button>
+                    </div>
+                </div>
+
+                <!-- Moisturizers -->
+                <div class="square-card">
+                    <img src="assets/moisturizer.png" alt="Deep Hydration Cloud Cream">
+                    <h3>Deep Hydration Cloud Cream</h3>
+                    <div class="card-footer">
+                        <div class="card-price">₹1,199</div>
+                        <button class="btn-add" onclick="addToCart('Deep Hydration Cloud Cream', 1199, 'assets/moisturizer.png', '50ml')">Add</button>
+                    </div>
+                </div>
+                <div class="square-card">
+                    <div class="offer-badge">20% OFF</div>
+                    <img src="assets/moisturizer.png" alt="Barrier Repair Moisturizer">
+                    <h3>Barrier Repair Moisturizer</h3>
+                    <div class="card-footer">
+                        <div class="card-price">₹1,399</div>
+                        <button class="btn-add" onclick="addToCart('Barrier Repair Moisturizer', 1399, 'assets/moisturizer.png', '50ml')">Add</button>
+                    </div>
+                </div>
+                <div class="square-card">
+                    <img src="assets/moisturizer.png" alt="Cellular Renewal Emulsion">
+                    <h3>Cellular Renewal Emulsion</h3>
+                    <div class="card-footer">
+                        <div class="card-price">₹1,899</div>
+                        <button class="btn-add" onclick="addToCart('Cellular Renewal Emulsion', 1899, 'assets/moisturizer.png', '100ml')">Add</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+</body>
+</html>

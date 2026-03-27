@@ -44,16 +44,96 @@ p {
     font-weight: 300;
 }
 
-/* Glassmorphism Navigation */
-.glass-nav {
+/* Announcement Bar (Rotating Widgets) */
+.announcement-bar {
+    background: var(--color-gold);
+    color: white;
+    text-align: center;
+    padding: 0.6rem 6%;
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 2px;
+    text-transform: uppercase;
     position: fixed;
     top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1001; /* Above nav */
+    height: 85px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.announcement-widget {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    opacity: 0;
+    transform: translateY(15px);
+    transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    pointer-events: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    font-size: 0.95rem;
+}
+
+.announcement-widget img {
+    height: 60px;
+    width: 75px;
+    object-fit: contain;
+    border-radius: 6px;
+    background: rgba(255,255,255,0.15);
+    padding: 4px;
+}
+
+.nav-arrow {
+    background: transparent;
+    border: none;
+    color: white;
+    font-size: 1.8rem;
+    cursor: pointer;
+    z-index: 1002;
+    padding: 10px;
+    transition: var(--transition-smooth);
+    opacity: 0.7;
+}
+
+.nav-arrow:hover {
+    opacity: 1;
+    transform: scale(1.1);
+}
+
+.announcement-widget.active {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+}
+
+.announcement-bar a {
+    color: white;
+    text-decoration: underline;
+    text-underline-offset: 4px;
+    font-weight: 600;
+}
+
+.announcement-bar a:hover {
+    color: var(--color-bg-light);
+}
+
+/* Glassmorphism Navigation Adjustment */
+.glass-nav {
+    position: fixed;
+    top: 85px; /* Shifted down for larger announcement bar */
     left: 0;
     width: 100%;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 1.5rem 6%;
+    padding: 1.2rem 6%;
     background: rgba(254, 252, 251, 0.65);
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
@@ -476,6 +556,15 @@ h1 {
     .btn-primary, .btn-secondary {
         width: 100%;
     }
+
+    .auth-card {
+        padding: 2.5rem 1.5rem;
+        border-radius: 12px;
+    }
+
+    .auth-container {
+        padding: 6rem 4% 2rem;
+    }
 }
 
 /* Inner Pages General Layout */
@@ -501,6 +590,102 @@ h1 {
     padding: 4rem 6%;
     max-width: 1200px;
     margin: 0 auto;
+}
+
+/* Navigation & Announcement Bar Header */
+.glass-nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    background: rgba(254, 252, 251, 0.8);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+    z-index: 1000;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.02);
+}
+
+.announcement-bar {
+    background: var(--color-gold);
+    color: white;
+    text-align: center;
+    padding: 0.5rem 6%;
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    width: 100%;
+    height: 85px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 4%;
+    overflow: hidden;
+    position: relative; 
+}
+
+.announcement-widget {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    opacity: 0;
+    transform: translateY(15px);
+    transition: all 0.5s ease;
+    pointer-events: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    font-size: 0.95rem;
+}
+
+.announcement-widget img {
+    height: 60px;
+    width: 75px;
+    object-fit: contain;
+    border-radius: 6px;
+}
+
+.announcement-widget.active {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+}
+
+.nav-main {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 6%;
+    width: 100%;
+}
+
+/* Original Hero Styles */
+.hero {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    align-items: center;
+    padding: 0 6%;
+    height: 100vh;
+    padding-top: 80px; /* Offset for nav */
+    overflow: hidden;
+}
+
+.hero-content h1 {
+    font-size: 4.5rem;
+    line-height: 1.1;
+    margin-bottom: 2rem;
+}
+
+.hero-visual .image-wrapper {
+    position: relative;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .grid-2 {
@@ -998,4 +1183,138 @@ h1 {
     .payment-options {
         grid-template-columns: 1fr;
     }
+}
+
+/* Royal Welcome Modal */
+.welcome-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    z-index: 5000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.welcome-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.welcome-modal {
+    background: rgba(254, 252, 251, 0.85);
+    backdrop-filter: blur(25px);
+    -webkit-backdrop-filter: blur(25px);
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    padding: 4rem 3rem;
+    border-radius: 24px;
+    max-width: 550px;
+    width: 90%;
+    text-align: center;
+    box-shadow: 0 40px 100px rgba(0, 0, 0, 0.15);
+    transform: scale(0.9) translateY(20px);
+    transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+.welcome-overlay.active .welcome-modal {
+    transform: scale(1) translateY(0);
+}
+
+.welcome-modal::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 6px;
+    background: linear-gradient(90deg, var(--color-gold), var(--color-champagne), var(--color-gold));
+}
+
+.royal-icon {
+    font-size: 3rem;
+    margin-bottom: 1.5rem;
+    display: block;
+    animation: pulse 2s infinite ease-in-out;
+}
+
+.welcome-modal h2 {
+    font-size: 2.2rem;
+    color: var(--color-text-main);
+    margin-bottom: 1rem;
+    letter-spacing: 1px;
+}
+
+.welcome-modal p {
+    font-size: 1.1rem;
+    color: var(--color-text-muted);
+    margin-bottom: 2.5rem;
+    line-height: 1.6;
+}
+
+.btn-royal {
+    padding: 1.2rem 3rem;
+    background: var(--color-gold);
+    color: white;
+    border: none;
+    border-radius: 50px;
+    font-family: var(--font-body);
+    font-size: 0.9rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: var(--transition-smooth);
+    box-shadow: 0 10px 20px rgba(204, 168, 118, 0.3);
+}
+
+.btn-royal:hover {
+    background: var(--color-gold-hover);
+    transform: translateY(-3px);
+    box-shadow: 0 15px 30px rgba(204, 168, 118, 0.4);
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); opacity: 0.8; }
+    50% { transform: scale(1.1); opacity: 1; }
+    100% { transform: scale(1); opacity: 0.8; }
+}
+
+/* Splash Screen Styles */
+.splash-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: #ffffff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    transition: opacity 1s ease-in-out, visibility 1s ease-in-out;
+}
+
+.splash-screen.fade-out {
+    opacity: 0;
+    visibility: hidden;
+}
+
+.splash-content {
+    text-align: center;
+}
+
+.splash-logo {
+    max-width: 400px;
+    width: 80%;
+    height: auto;
+    filter: drop-shadow(0 10px 20px rgba(0,0,0,0.05));
 }

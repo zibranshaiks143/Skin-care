@@ -9,26 +9,50 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <script src="auth.js"></script>
 </head>
 <body>
     <header class="glass-nav">
-        <a href="index.html" class="logo" style="text-decoration: none;">SHINE</a>
-        <nav>
-            <a href="science.html">The Science</a>
-            <div class="dropdown">
-                <a href="#" class="dropbtn">Shop</a>
-                <div class="dropdown-content">
-                    <a href="serums.html">Serums</a>
-                    <a href="creams.html">Creams</a>
-                    <a href="sunscreens.html">Sunscreens</a>
-                    <a href="lotions.html">Lotions</a>
-                    <a href="moisturizers.html">Moisturizers</a>
-                </div>
+        <div class="announcement-bar">
+            <button class="nav-arrow prev" aria-label="Previous">&#10094;</button>
+            <div class="announcement-widget">
+                <img src="assets/lotion.png" alt="Shipping">
+                <span>Complimentary shipping on orders over ₹5,000</span>
             </div>
-            <a href="story.html">Our Story</a>
-        </nav>
-        <div class="nav-actions">
-            <a href="cart-orders.html" class="cart-btn">Cart</a>
+            <div class="announcement-widget">
+                <img src="assets/serum.png" alt="Collection">
+                <span>New Collection: 24k Champagne Gold Ritual</span>
+            </div>
+            <div class="announcement-widget">
+                <img src="assets/quiz_hero.png" alt="Quiz">
+                <span>Find Your Perfect Ritual: <a href="skin-quiz.html">Take the Skin Quiz</a></span>
+            </div>
+            <div class="announcement-widget">
+                <img src="assets/cream.png" alt="Consultation">
+                <span>Discover Your Glow: <a href="skin-quiz.html">Try Our AI Skin Analysis</a></span>
+            </div>
+            <button class="nav-arrow next" aria-label="Next">&#10095;</button>
+        </div>
+        <div class="nav-main">
+            <a href="index.html" class="logo" style="text-decoration: none;">SHINE</a>
+            <nav>
+                <a href="science.html">The Science</a>
+                <div class="dropdown">
+                    <a href="#" class="dropbtn">Shop</a>
+                    <div class="dropdown-content">
+                        <a href="serums.html">Serums</a>
+                        <a href="creams.html">Creams</a>
+                        <a href="sunscreens.html">Sunscreens</a>
+                        <a href="lotions.html">Lotions</a>
+                        <a href="moisturizers.html">Moisturizers</a>
+                    </div>
+                </div>
+                <a href="story.html">Our Story</a>
+                <a href="skin-quiz.html">Skin Quiz</a>
+            </nav>
+            <div class="nav-actions">
+                <a href="cart-orders.html" class="cart-btn">Cart</a>
+            </div>
         </div>
     </header>
 
@@ -59,6 +83,5 @@
             </div>
         </section>
     </main>
-    <script src="auth.js"></script>
 </body>
 </html>

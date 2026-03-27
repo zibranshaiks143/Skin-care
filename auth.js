@@ -8,6 +8,18 @@ const AUTH_CONFIG = {
     CURRENT_USER_KEY: 'shine_current_user'
 };
 
+// --- GATEKEEPER START ---
+(function() {
+    const user = localStorage.getItem(AUTH_CONFIG.CURRENT_USER_KEY);
+    const path = window.location.pathname;
+    const isAuthPage = path.includes('login.html') || path.includes('signup.html');
+    
+    if (!user && !isAuthPage) {
+        window.location.href = 'login.html';
+    }
+})();
+// --- GATEKEEPER END ---
+
 /**
  * Initialize the authentication state on every page load.
  */
@@ -15,7 +27,72 @@ function initAuth() {
     const currentUser = JSON.parse(localStorage.getItem(AUTH_CONFIG.CURRENT_USER_KEY));
     updateNavigation(currentUser);
     updateCartCount();
-    // Removed separate profile section update - now handled by drawer
+    initTicker();
+
+    // Royal Welcome Check
+    if (localStorage.getItem('show_welcome_modal') === 'true' && currentUser) {
+        showWelcomeModal(currentUser.name);
+        localStorage.removeItem('show_welcome_modal');
+    }
+}
+
+/**
+ * Announcement Bar Ticker Logic
+ */
+function initTicker() {
+    const bar = document.querySelector('.announcement-bar');
+    const widgets = document.querySelectorAll('.announcement-widget');
+    if (widgets.length === 0 || !bar) return;
+
+    let currentIndex = 0;
+    let timer;
+    
+    // Set initial active
+    widgets[0].classList.add('active');
+
+    function showWidget(index) {
+        widgets.forEach(w => w.classList.remove('active'));
+        currentIndex = (index + widgets.length) % widgets.length;
+        widgets[currentIndex].classList.add('active');
+        
+        // Reset timer if manual move
+        stopTimer();
+        startTimer();
+    }
+
+    function startTimer() {
+        stopTimer(); // Ensure no duplicates
+        timer = setInterval(() => {
+            showWidget(currentIndex + 1);
+        }, 5000); // Slightly slower rotation for larger content
+    }
+
+    function stopTimer() {
+        if (timer) clearInterval(timer);
+    }
+
+    // Add manual controls if they exist
+    const prevBtn = bar.querySelector('.prev');
+    const nextBtn = bar.querySelector('.next');
+    
+    if (prevBtn) {
+        prevBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            showWidget(currentIndex - 1);
+        });
+    }
+    
+    if (nextBtn) {
+        nextBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            showWidget(currentIndex + 1);
+        });
+    }
+
+    bar.addEventListener('mouseenter', stopTimer);
+    bar.addEventListener('mouseleave', startTimer);
+
+    startTimer();
 }
 
 /**
@@ -156,6 +233,7 @@ function signUp(name, email, phone, password) {
     localStorage.setItem(AUTH_CONFIG.USERS_KEY, JSON.stringify(users));
     
     // Automatically log in after sign up
+    localStorage.setItem('show_welcome_modal', 'true');
     signIn(email, password);
     
     return { success: true, message: 'Account created successfully!' };
@@ -177,6 +255,8 @@ function signIn(email, password) {
             email: user.email,
             phone: user.phone || ''
         }));
+        
+        localStorage.setItem('show_welcome_modal', 'true');
         window.location.href = 'index.html'; // Redirect to home
         return { success: true, message: 'Signed in successfully!' };
     } else {
@@ -192,5 +272,147 @@ function signOut() {
     window.location.reload();
 }
 
+/**
+ * Shows the premium Royal Welcome Modal.
+ * @param {string} name 
+ */
+function showWelcomeModal(name) {
+    const overlay = document.createElement('div');
+    overlay.className = 'welcome-overlay';
+    overlay.innerHTML = `
+        <div class="welcome-modal">
+            <span class="royal-icon">👑</span>
+            <h2>Welcome Back, Your Highness</h2>
+            <p>Greetings, Princess ${name}. Your radiant journey to timeless beauty continues. We have prepared your personalized ritual in the chamber of SHINE.</p>
+            <button class="btn-royal" id="close-welcome">Continue to Ritual</button>
+        </div>
+    `;
+    document.body.appendChild(overlay);
+
+    // Trigger animation
+    setTimeout(() => overlay.classList.add('active'), 100);
+
+    const closeBtn = overlay.querySelector('#close-welcome');
+    closeBtn.addEventListener('click', () => {
+        overlay.classList.remove('active');
+        setTimeout(() => overlay.remove(), 600);
+    });
+}
+
 // Automatically initialize auth on every script execution
 document.addEventListener('DOMContentLoaded', initAuth);
+
+// --- Global Product Modal ---
+const MOCK_REVIEWS = [
+    { stars: '★★★★★', text: "Absolute game changer. My skin has never felt this hydrated and glowing.", author: "Eleanor V. - Verified" },
+    { stars: '★★★★★', text: "Worth every penny. The texture is luxurious and absorbs instantly without greasiness.", author: "Sophia M. - Verified" },
+    { stars: '★★★★☆', text: "Beautiful packaging and great results. I noticed a visible difference within a week.", author: "Isabella R. - Verified" },
+    { stars: '★★★★★', text: "My holy grail product. It layers beautifully under my makeup without pilling.", author: "Olivia C. - Verified" },
+    { stars: '★★★★★', text: "Incredible formulation. It feels very light but packs a powerful punch of hydration.", author: "Victoria H. - Verified" },
+    { stars: '★★★★☆', text: "Love the subtle scent and the radiant glow it leaves. Will definitely repurchase.", author: "Chloe S. - Verified" },
+    { stars: '★★★★★', text: "I have sensitive skin and this didn't break me out at all. Highly recommend!", author: "Grace L. - Verified" }
+];
+
+function injectProductModal() {
+    if (document.getElementById('product-modal')) return;
+
+    const modalHTML = `
+        <div id="product-modal" class="product-modal-overlay">
+            <div class="product-modal-content">
+                <span class="close-modal" onclick="closeProductModal()">&times;</span>
+                <div class="modal-left">
+                    <img id="modal-img" src="" alt="Product Image">
+                </div>
+                <div class="modal-right">
+                    <h2 id="modal-title">Product Name</h2>
+                    <p id="modal-price" class="price">₹0</p>
+                    <div class="reviews-section">
+                        <h3>Customer Reviews</h3>
+                        <div id="modal-reviews-list"></div>
+                    </div>
+                    <button class="btn-primary" id="modal-add-btn" style="width: 100%;">Add to Cart</button>
+                </div>
+            </div>
+        </div>
+    `;
+    document.body.insertAdjacentHTML('beforeend', modalHTML);
+
+    // Close modal when clicking outside of it
+    document.getElementById('product-modal').addEventListener('click', (e) => {
+        if(e.target === document.getElementById('product-modal')) closeProductModal();
+    });
+}
+
+function openProductModal(name, price, image, size) {
+    document.getElementById('modal-img').src = image;
+    document.getElementById('modal-title').innerText = name;
+    document.getElementById('modal-price').innerText = `₹${price.toLocaleString('en-IN')}`;
+    
+    const shuffled = [...MOCK_REVIEWS].sort(() => 0.5 - Math.random());
+    const numReviews = Math.floor(Math.random() * 2) + 2;
+    const selected = shuffled.slice(0, numReviews);
+    
+    document.getElementById('modal-reviews-list').innerHTML = selected.map(r => `
+        <div class="review-item">
+            <div class="review-stars">${r.stars}</div>
+            <p class="review-text">"${r.text}"</p>
+            <span class="review-author">${r.author}</span>
+        </div>
+    `).join('');
+    
+    document.getElementById('modal-add-btn').onclick = () => {
+        addToCart(name, price, image, size);
+        closeProductModal();
+    };
+    
+    document.getElementById('product-modal').classList.add('active');
+}
+
+function closeProductModal() {
+    document.getElementById('product-modal').classList.remove('active');
+}
+
+function initProductCards() {
+    const cards = document.querySelectorAll('.square-card, .product-card');
+    cards.forEach(card => {
+        // Prevent duplicate wrappers if init is called twice
+        if (card.querySelector('.clickable-wrapper')) return;
+
+        const img = card.querySelector('img');
+        const title = card.querySelector('h3');
+        const btn = card.querySelector('button[onclick*="addToCart"]');
+        const badge = card.querySelector('.offer-badge');
+        
+        if (btn && img && title) {
+            const btnClick = btn.getAttribute('onclick');
+            const argsMatch = btnClick ? btnClick.match(/'([^']*)',\s*(\d+),\s*'([^']*)',\s*'([^']*)'/) : null;
+            
+            if (argsMatch) {
+                const name = argsMatch[1];
+                const price = parseInt(argsMatch[2], 10);
+                const image = argsMatch[3];
+                const size = argsMatch[4];
+                
+                const wrapper = document.createElement('div');
+                wrapper.className = 'clickable-wrapper';
+                wrapper.style.cursor = 'pointer';
+                wrapper.style.display = 'flex';
+                wrapper.style.flexDirection = 'column';
+                wrapper.style.flexGrow = '1';
+                wrapper.style.alignItems = 'center';
+                wrapper.onclick = () => openProductModal(name, price, image, size);
+                
+                if (badge) wrapper.appendChild(badge);
+                wrapper.appendChild(img);
+                wrapper.appendChild(title);
+                
+                card.insertBefore(wrapper, card.firstChild);
+            }
+        }
+    });
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    injectProductModal();
+    initProductCards();
+});

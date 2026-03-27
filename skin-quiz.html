@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Find Your Glow | SHINE Skin Quiz</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <script src="auth.js"></script>
+    <style>
+        .quiz-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+            min-height: 60vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .quiz-step {
+            display: none;
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        .quiz-step.active {
+            display: block;
+        }
+
+        .quiz-progress {
+            width: 100%;
+            height: 4px;
+            background: rgba(204, 168, 118, 0.1);
+            margin-bottom: 3rem;
+            border-radius: 2px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: var(--color-gold);
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+
+        .question-text {
+            font-size: 2.2rem;
+            margin-bottom: 2.5rem;
+            color: var(--color-text-main);
+            line-height: 1.3;
+        }
+
+        .options-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+
+        .option-card {
+            background: rgba(255, 255, 255, 0.45);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            padding: 2rem;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+            text-align: center;
+        }
+
+        .option-card:hover {
+            border-color: var(--color-gold);
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.7);
+        }
+
+        .option-card h3 {
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+            color: var(--color-text-main);
+        }
+
+        .option-card p {
+            font-size: 0.85rem;
+            color: var(--color-text-muted);
+        }
+
+        .results-container {
+            display: none;
+            animation: fadeIn 1s ease-out;
+            text-align: center;
+        }
+
+        .skin-type-badge {
+            display: inline-block;
+            padding: 0.5rem 1.5rem;
+            background: rgba(204, 168, 118, 0.1);
+            color: var(--color-gold);
+            border-radius: 30px;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 1rem;
+        }
+
+        .recommendations-grid {
+            margin-top: 4rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            text-align: left;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (max-width: 600px) {
+            .options-grid {
+                grid-template-columns: 1fr;
+            }
+            .question-text {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="glass-nav">
+        <div class="announcement-bar">
+            <button class="nav-arrow prev" aria-label="Previous">&#10094;</button>
+            <div class="announcement-widget">
+                <img src="assets/lotion.png" alt="Shipping">
+                <span>Complimentary shipping on orders over ₹5,000</span>
+            </div>
+            <div class="announcement-widget">
+                <img src="assets/serum.png" alt="Collection">
+                <span>New Collection: 24k Champagne Gold Ritual</span>
+            </div>
+            <div class="announcement-widget">
+                <img src="assets/quiz_hero.png" alt="Quiz">
+                <span>Find Your Perfect Ritual: <a href="skin-quiz.html">Take the Skin Quiz</a></span>
+            </div>
+            <div class="announcement-widget">
+                <img src="assets/cream.png" alt="Consultation">
+                <span>Discover Your Glow: <a href="skin-quiz.html">Try Our AI Skin Analysis</a></span>
+            </div>
+            <button class="nav-arrow next" aria-label="Next">&#10095;</button>
+        </div>
+        <div class="nav-main">
+            <a href="index.html" class="logo" style="text-decoration: none;">SHINE</a>
+            <nav>
+                <a href="science.html">The Science</a>
+                <div class="dropdown">
+                    <a href="#" class="dropbtn">Shop</a>
+                    <div class="dropdown-content">
+                        <a href="serums.html">Serums</a>
+                        <a href="creams.html">Creams</a>
+                        <a href="sunscreens.html">Sunscreens</a>
+                        <a href="lotions.html">Lotions</a>
+                        <a href="moisturizers.html">Moisturizers</a>
+                    </div>
+                </div>
+                <a href="story.html">Our Story</a>
+                <a href="skin-quiz.html" class="active">Skin Quiz</a>
+            </nav>
+            <div class="nav-actions">
+                <a href="cart-orders.html" class="cart-btn">Cart</a>
+            </div>
+        </div>
+    </header>
+
+    <main class="page-header" style="background: transparent; padding-top: 10rem;">
+        <div class="quiz-container">
+            <div id="quiz-intro">
+                <span class="eyebrow" style="text-align: center; display: block;">Personalized Ritual</span>
+                <h1 style="text-align: center;">Find Your Perfect Glow</h1>
+                <p style="text-align: center; margin-top: 1rem; margin-bottom: 3rem;">Answer a few simple questions about your skin, and our experts will curate a selection of SHINE products tailored just for you.</p>
+                <div style="text-align: center;">
+                    <button class="btn-primary" onclick="startQuiz()">Start the Quiz</button>
+                </div>
+            </div>
+
+            <div id="quiz-steps" style="display: none;">
+                <div class="quiz-progress">
+                    <div id="progress-bar" class="progress-bar"></div>
+                </div>
+                
+                <div id="step-1" class="quiz-step active">
+                    <h2 class="question-text">How does your skin feel midday?</h2>
+                    <div class="options-grid">
+                        <div class="option-card" onclick="nextStep(1, 'oily')">
+                            <h3>Shiny & Slick</h3>
+                            <p>Visible oil and large pores.</p>
+                        </div>
+                        <div class="option-card" onclick="nextStep(1, 'dry')">
+                            <h3>Tight & Flaky</h3>
+                            <p>Needs constant hydration.</p>
+                        </div>
+                        <div class="option-card" onclick="nextStep(1, 'combination')">
+                            <h3>Mix of Both</h3>
+                            <p>Oily T-zone, dry cheeks.</p>
+                        </div>
+                        <div class="option-card" onclick="nextStep(1, 'sensitive')">
+                            <h3>Red & Reactive</h3>
+                            <p>Irritated by products easily.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="step-2" class="quiz-step">
+                    <h2 class="question-text">What is your primary skin concern?</h2>
+                    <div class="options-grid">
+                        <div class="option-card" onclick="nextStep(2, 'aging')">
+                            <h3>Fine Lines</h3>
+                            <p>Focus on firming & lifting.</p>
+                        </div>
+                        <div class="option-card" onclick="nextStep(2, 'dullness')">
+                            <h3>Lack of Glow</h3>
+                            <p>Focus on brightening & tone.</p>
+                        </div>
+                        <div class="option-card" onclick="nextStep(2, 'hydration')">
+                            <h3>Dehydration</h3>
+                            <p>Focus on moisture retention.</p>
+                        </div>
+                        <div class="option-card" onclick="nextStep(2, 'texture')">
+                            <h3>Uneven Texture</h3>
+                            <p>Focus on smoothing & refining.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="step-3" class="quiz-step">
+                    <h2 class="question-text">How does your skin react to the sun?</h2>
+                    <div class="options-grid">
+                        <div class="option-card" onclick="nextStep(3, 'sensitive')">
+                            <h3>Burns Instantly</h3>
+                            <p>Extremely sensitive to uv.</p>
+                        </div>
+                        <div class="option-card" onclick="nextStep(3, 'normal')">
+                            <h3>Tans Gradually</h3>
+                            <p>Resilient but needs care.</p>
+                        </div>
+                        <div class="option-card" onclick="nextStep(3, 'dry')">
+                            <h3>Feels Dry/Tight</h3>
+                            <p>Sun drains all moisture.</p>
+                        </div>
+                        <div class="option-card" onclick="nextStep(3, 'oily')">
+                            <h3>Gets Oilier</h3>
+                            <p>Heat triggers sebum.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="results" class="results-container">
+                <span class="skin-type-badge" id="skin-type-display">Your Type: Oily</span>
+                <h2 id="result-title">Radiance for the Resilient</h2>
+                <p id="result-desc">Your skin has unique needs. Based on your answers, we recommend this tailored SHINE ritual to balance and illuminate your complexion.</p>
+                
+                <div id="recommended-products" class="recommendations-grid">
+                    <!-- Dynamic recommendations will appear here -->
+                </div>
+                
+                <div style="margin-top: 4rem;">
+                    <button class="btn-secondary" onclick="restartQuiz()">Retake Quiz</button>
+                    <a href="serums.html" class="btn-primary" style="text-decoration: none; margin-left: 1rem;">View All Products</a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer style="padding: 6rem 6%; background: rgba(254, 252, 251, 0.4); backdrop-filter: blur(10px); color: var(--color-text-muted); border-top: 1px solid rgba(0,0,0,0.05); margin-top: 4rem;">
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 4rem;">
+            <div>
+                <h3 style="font-family: var(--font-heading); color: var(--color-gold); letter-spacing: 3px; margin-bottom: 1.5rem;">SHINE</h3>
+                <p>Redefining luxury skincare through zero-gravity suspension technology and rare botanical essences.</p>
+            </div>
+            <div>
+                <h4 style="color: var(--color-text-main); margin-bottom: 1.5rem; letter-spacing: 1px; font-weight: 500;">Boutique</h4>
+                <ul style="list-style: none; display: flex; flex-direction: column; gap: 0.8rem; font-size: 0.9rem;">
+                    <li><a href="serums.html" style="text-decoration:none; color:inherit;">Serums</a></li>
+                    <li><a href="creams.html" style="text-decoration:none; color:inherit;">Creams</a></li>
+                    <li><a href="lotions.html" style="text-decoration:none; color:inherit;">Lotions</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 style="color: var(--color-text-main); margin-bottom: 1.5rem; letter-spacing: 1px; font-weight: 500;">Insights</h4>
+                <ul style="list-style: none; display: flex; flex-direction: column; gap: 0.8rem; font-size: 0.9rem;">
+                    <li><a href="science.html" style="text-decoration:none; color:inherit;">The Science</a></li>
+                    <li><a href="story.html" style="text-decoration:none; color:inherit;">Our Story</a></li>
+                    <li><a href="skin-quiz.html" style="text-decoration:none; color:inherit;">Find Your Glow</a></li>
+                </ul>
+            </div>
+        </div>
+        <div style="margin-top: 6rem; padding-top: 2rem; border-top: 1px solid rgba(0,0,0,0.03); display: flex; justify-content: space-between; align-items: center; font-size: 0.8rem;">
+            <p>&copy; 2026 SHINE Luxury Skincare. Manufactured in London.</p>
+            <div style="display: flex; gap: 2rem;">
+                <a href="#" style="text-decoration:none; color:inherit;">Instagram</a>
+                <a href="#" style="text-decoration:none; color:inherit;">Journal</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="quiz.js"></script>
+</body>
+</html>

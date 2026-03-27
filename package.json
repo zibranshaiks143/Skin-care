@@ -1,0 +1,13 @@
+{
+  "name": "shine-skincare",
+  "version": "1.0.0",
+  "description": "Luxury Skincare Website",
+  "main": "index.html",
+  "scripts": {
+    "start": "npx serve -l 8080 ."
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "serve": "^14.2.1"
+  }
+}

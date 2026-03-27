@@ -9,6 +9,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <script src="auth.js"></script>
     <style>
         .tabs {
             display: flex;
@@ -327,27 +328,111 @@
                 margin: 0;
             }
         }
+
+        /* Payment Details Inputs */
+        .payment-details-container {
+            margin-top: 1.5rem;
+            animation: fadeIn 0.3s ease;
+        }
+        .payment-input-group {
+            margin-bottom: 1rem;
+            text-align: left;
+        }
+        .payment-input-group label {
+            display: block;
+            font-size: 0.85rem;
+            color: var(--color-text-muted);
+            margin-bottom: 0.4rem;
+        }
+        .payment-input-group input {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid rgba(204, 168, 118, 0.4);
+            border-radius: 8px;
+            font-family: var(--font-body);
+            font-size: 1rem;
+            background: rgba(255, 255, 255, 0.7);
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        .payment-input-group input:focus {
+            border-color: var(--color-gold);
+        }
+        .card-row {
+            display: flex;
+            gap: 1rem;
+        }
+        .error-text {
+            color: #d9534f;
+            font-size: 0.8rem;
+            margin-top: 0.3rem;
+            display: none;
+        }
+
+        /* Processing Overlay */
+        .verifying-overlay {
+            display: none;
+            text-align: center;
+            padding: 2rem;
+            animation: fadeIn 0.3s ease;
+        }
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid rgba(204, 168, 118, 0.3);
+            border-top: 3px solid var(--color-gold);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1.5rem auto;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
     </style>
 </head>
 <body>
     <header class="glass-nav">
-        <a href="index.html" class="logo" style="text-decoration: none;">SHINE</a>
-        <nav>
-            <a href="science.html">The Science</a>
-            <div class="dropdown">
-                <a href="#" class="dropbtn">Shop</a>
-                <div class="dropdown-content">
-                    <a href="serums.html">Serums</a>
-                    <a href="creams.html">Creams</a>
-                    <a href="sunscreens.html">Sunscreens</a>
-                    <a href="lotions.html">Lotions</a>
-                    <a href="moisturizers.html">Moisturizers</a>
-                </div>
+        <div class="announcement-bar">
+            <button class="nav-arrow prev" aria-label="Previous">&#10094;</button>
+            <div class="announcement-widget">
+                <img src="assets/lotion.png" alt="Shipping">
+                <span>Complimentary shipping on orders over ₹5,000</span>
             </div>
-            <a href="story.html">Our Story</a>
-        </nav>
-        <div class="nav-actions">
-            <a href="cart-orders.html" class="cart-btn" style="color: var(--color-gold);">Cart</a>
+            <div class="announcement-widget">
+                <img src="assets/serum.png" alt="Collection">
+                <span>New Collection: 24k Champagne Gold Ritual</span>
+            </div>
+            <div class="announcement-widget">
+                <img src="assets/quiz_hero.png" alt="Quiz">
+                <span>Find Your Perfect Ritual: <a href="skin-quiz.html">Take the Skin Quiz</a></span>
+            </div>
+            <div class="announcement-widget">
+                <img src="assets/cream.png" alt="Consultation">
+                <span>Discover Your Glow: <a href="skin-quiz.html">Try Our AI Skin Analysis</a></span>
+            </div>
+            <button class="nav-arrow next" aria-label="Next">&#10095;</button>
+        </div>
+        <div class="nav-main">
+            <a href="index.html" class="logo" style="text-decoration: none;">SHINE</a>
+            <nav>
+                <a href="science.html">The Science</a>
+                <div class="dropdown">
+                    <a href="#" class="dropbtn">Shop</a>
+                    <div class="dropdown-content">
+                        <a href="serums.html">Serums</a>
+                        <a href="creams.html">Creams</a>
+                        <a href="sunscreens.html">Sunscreens</a>
+                        <a href="lotions.html">Lotions</a>
+                        <a href="moisturizers.html">Moisturizers</a>
+                    </div>
+                </div>
+                <a href="story.html">Our Story</a>
+                <a href="skin-quiz.html">Skin Quiz</a>
+            </nav>
+            <div class="nav-actions">
+                <a href="cart-orders.html" class="cart-btn">Cart</a>
+            </div>
         </div>
     </header>
 
@@ -421,11 +506,35 @@
                             <span>COD</span>
                         </div>
                     </div>
+                    <!-- Payment Inputs Container -->
+                    <div id="payment-details-form" class="payment-details-container">
+                        <div class="payment-input-group">
+                            <label>Card Number</label>
+                            <input type="text" id="card-num" placeholder="0000 0000 0000 0000" maxlength="19">
+                            <div class="error-text" id="card-err">Invalid card number</div>
+                        </div>
+                        <div class="card-row">
+                            <div class="payment-input-group" style="flex: 1;">
+                                <label>Expiry Date</label>
+                                <input type="text" id="card-exp" placeholder="MM/YY" maxlength="5">
+                            </div>
+                            <div class="payment-input-group" style="flex: 1;">
+                                <label>CVV</label>
+                                <input type="password" id="card-cvv" placeholder="123" maxlength="3">
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="checkout-footer">
                     <button id="confirm-purchase-btn" class="btn-primary complete-purchase-btn">Complete Purchase</button>
                     <span id="close-checkout" class="cancel-checkout">Cancel</span>
                 </div>
+            </div>
+            
+            <div id="checkout-verifying" class="verifying-overlay">
+                <div class="spinner"></div>
+                <h2>Verifying securely...</h2>
+                <p>Please do not close this window.</p>
             </div>
             <div id="checkout-success" class="success-msg">
                 <div class="success-icon">✓</div>
@@ -475,6 +584,11 @@
             const container = document.getElementById('cart-items-container');
             const summary = document.getElementById('cart-summary');
             
+            // Sync tab text and global nav
+            const cartTab = document.querySelector('button[onclick*="cart"]');
+            if(cartTab) cartTab.innerText = `My Cart (${cart.length})`;
+            if(typeof updateCartCount === 'function') updateCartCount();
+            
             if (cart.length === 0) {
                 container.innerHTML = '<p style="text-align: center; font-family: var(--font-body); font-size: 1.1rem; color: var(--color-text-muted); margin: 4rem 0;">Your elegant cart is gracefully empty.</p>';
                 summary.style.display = 'none';
@@ -512,6 +626,10 @@
 
             const upcoming = orders.filter(o => o.type === 'upcoming');
             const history = orders.filter(o => o.type === 'history');
+            
+            // Sync tab text
+            const upcomingTab = document.querySelector('button[onclick*="upcoming"]');
+            if(upcomingTab) upcomingTab.innerText = `Upcoming Orders (${upcoming.length})`;
 
             upcomingContainer.innerHTML = upcoming.length ? upcoming.map(order => `
                 <div class="order-card">
@@ -526,6 +644,7 @@
                     </div>
                     <div class="item-action">
                         <span class="status-badge status-processing">${order.status}</span>
+                        <a href="#" onclick="cancelOrder('${order.id}', event)" style="margin-top: 1.5rem; color: #d9534f; font-size: 0.8rem; text-decoration: underline; text-transform: uppercase; letter-spacing: 1px; cursor: pointer;">Cancel Order</a>
                     </div>
                 </div>
             `).join('') : '<p style="text-align: center; padding: 3rem;">No upcoming orders.</p>';
@@ -542,10 +661,25 @@
                         </div>
                     </div>
                     <div class="item-action">
-                        <span class="status-badge status-delivered">${order.status}</span>
+                        <span class="status-badge ${order.status === 'Cancelled' ? 'status-processing' : 'status-delivered'}">${order.status}</span>
                     </div>
                 </div>
             `).join('') : '<p style="text-align: center; padding: 3rem;">No purchase history yet.</p>';
+        }
+
+        function cancelOrder(id, event) {
+            if (event) event.preventDefault();
+            if (confirm('Are you sure you want to cancel this beautiful order? It cannot be undone.')) {
+                let orders = JSON.parse(localStorage.getItem(STORAGE_KEYS.ORDERS) || '[]');
+                const orderIndex = orders.findIndex(o => o.id === id);
+                if (orderIndex !== -1) {
+                    // Update order to strictly be history and cancelled
+                    orders[orderIndex].type = 'history';
+                    orders[orderIndex].status = 'Cancelled';
+                    localStorage.setItem(STORAGE_KEYS.ORDERS, JSON.stringify(orders));
+                    renderOrders();
+                }
+            }
         }
 
         function toggleItemSelection(id) {
@@ -582,6 +716,65 @@
             selectedPaymentMethod = method === 'card' ? 'Card' : (method === 'upi' ? 'UPI' : 'COD');
             document.querySelectorAll('.payment-option').forEach(opt => opt.classList.remove('selected'));
             element.classList.add('selected');
+            
+            // Render specific inputs
+            const detailsContainer = document.getElementById('payment-details-form');
+            if (method === 'card') {
+                detailsContainer.innerHTML = `
+                    <div class="payment-input-group">
+                        <label>Card Number</label>
+                        <input type="text" id="card-num" placeholder="0000 0000 0000 0000" maxlength="19" oninput="formatCardNumber(this)">
+                        <div class="error-text" id="pay-err">Please enter a valid 16-digit card number</div>
+                    </div>
+                    <div class="card-row">
+                        <div class="payment-input-group" style="flex: 1;">
+                            <label>Expiry Date</label>
+                            <input type="text" id="card-exp" placeholder="MM/YY" maxlength="5" oninput="formatExpiry(this)">
+                        </div>
+                        <div class="payment-input-group" style="flex: 1;">
+                            <label>CVV</label>
+                            <input type="password" id="card-cvv" placeholder="123" maxlength="3" oninput="formatCVV(this)">
+                        </div>
+                    </div>
+                `;
+            } else if (method === 'upi') {
+                detailsContainer.innerHTML = `
+                    <div class="payment-input-group">
+                        <label>UPI ID</label>
+                        <input type="text" id="upi-id" placeholder="username@bank">
+                        <div class="error-text" id="pay-err">Please enter a valid UPI ID (e.g., name@okbank)</div>
+                    </div>
+                `;
+            } else {
+                detailsContainer.innerHTML = `
+                    <p style="font-size: 0.9rem; color: var(--color-text-muted); text-align: center; margin-top: 1rem;">You will pay with cash upon delivery.</p>
+                `;
+            }
+        }
+
+        // Input Formatters
+        function formatCardNumber(input) {
+            let val = input.value.replace(/\D/g, '');
+            let formatted = val.match(/.{1,4}/g)?.join(' ') || val;
+            input.value = formatted;
+        }
+
+        function formatExpiry(input) {
+            let val = input.value.replace(/\D/g, '');
+            if (val.length >= 2) {
+                // Ensure month is 01-12
+                let month = parseInt(val.substring(0, 2), 10);
+                if (month < 1) month = '01';
+                else if (month > 12) month = '12';
+                else month = val.substring(0, 2);
+                
+                val = month + (val.length > 2 ? '/' + val.substring(2, 4) : '');
+            }
+            input.value = val;
+        }
+
+        function formatCVV(input) {
+            input.value = input.value.replace(/\D/g, '');
         }
 
         // Checkout logic
@@ -608,11 +801,12 @@
             `;
 
             document.getElementById('checkout-modal').classList.add('active');
+            document.getElementById('checkout-form-content').style.display = 'block';
+            document.getElementById('checkout-verifying').style.display = 'none';
+            document.getElementById('checkout-success').style.display = 'none';
             
             // Reset payment selection to default
-            selectedPaymentMethod = 'Card';
-            document.querySelectorAll('.payment-option').forEach(opt => opt.classList.remove('selected'));
-            document.querySelector('.payment-option:first-child').classList.add('selected');
+            selectPaymentMethod('card', document.querySelector('.payment-option:first-child'));
         });
 
         document.getElementById('close-checkout').addEventListener('click', () => {
@@ -620,29 +814,64 @@
         });
 
         document.getElementById('confirm-purchase-btn').addEventListener('click', () => {
-            const cart = JSON.parse(localStorage.getItem(STORAGE_KEYS.CART) || '[]');
-            const selectedItems = cart.filter(i => i.checked);
-            const remainingCart = cart.filter(i => !i.checked);
+            // Validation step
+            const errField = document.getElementById('pay-err');
+            if (errField) errField.style.display = 'none';
 
-            // Add to orders
-            const orders = JSON.parse(localStorage.getItem(STORAGE_KEYS.ORDERS) || '[]');
-            const newOrder = {
-                id: 'SH-' + Math.floor(1000 + Math.random() * 9000),
-                name: selectedItems.length > 1 ? `${selectedItems[0].name} & more` : selectedItems[0].name,
-                date: new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }),
-                total: selectedItems.reduce((sum, item) => sum + (item.price * item.qty), 0),
-                paymentMethod: selectedPaymentMethod,
-                status: 'Processing',
-                type: 'upcoming'
-            };
+            if (selectedPaymentMethod === 'Card') {
+                const cardNum = document.getElementById('card-num').value.replace(/\s+/g, '');
+                const cardExp = document.getElementById('card-exp').value;
+                const cardCvv = document.getElementById('card-cvv').value;
+                
+                // Strict validation
+                const isCardValid = /^\d{16}$/.test(cardNum);
+                const isExpValid = /^(0[1-9]|1[0-2])\/\d{2}$/.test(cardExp);
+                const isCvvValid = /^\d{3}$/.test(cardCvv);
+                
+                if (!isCardValid || !isExpValid || !isCvvValid) {
+                    if (errField) errField.style.display = 'block';
+                    return;
+                }
+            } else if (selectedPaymentMethod === 'UPI') {
+                const upiId = document.getElementById('upi-id').value;
+                // Strict UPI validation: alphanumerics/dots/dashes/underscores + @ + bankname
+                const upiRegex = /^[a-zA-Z0-9.\-_]+@[a-zA-Z]+$/;
+                if (!upiRegex.test(upiId)) {
+                    if (errField) errField.style.display = 'block';
+                    return;
+                }
+            }
 
-            orders.push(newOrder);
-            localStorage.setItem(STORAGE_KEYS.ORDERS, JSON.stringify(orders));
-            localStorage.setItem(STORAGE_KEYS.CART, JSON.stringify(remainingCart));
-
-            // Show success
+            // Validation passed! Show processing animation
             document.getElementById('checkout-form-content').style.display = 'none';
-            document.getElementById('checkout-success').style.display = 'block';
+            document.getElementById('checkout-verifying').style.display = 'block';
+
+            // Simulate server payment verification delay
+            setTimeout(() => {
+                const cart = JSON.parse(localStorage.getItem(STORAGE_KEYS.CART) || '[]');
+                const selectedItems = cart.filter(i => i.checked);
+                const remainingCart = cart.filter(i => !i.checked);
+
+                // Add to orders
+                const orders = JSON.parse(localStorage.getItem(STORAGE_KEYS.ORDERS) || '[]');
+                const newOrder = {
+                    id: 'SH-' + Math.floor(1000 + Math.random() * 9000),
+                    name: selectedItems.length > 1 ? `${selectedItems[0].name} & more` : selectedItems[0].name,
+                    date: new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }),
+                    total: selectedItems.reduce((sum, item) => sum + (item.price * item.qty), 0),
+                    paymentMethod: selectedPaymentMethod,
+                    status: 'Processing',
+                    type: 'upcoming'
+                };
+
+                orders.push(newOrder);
+                localStorage.setItem(STORAGE_KEYS.ORDERS, JSON.stringify(orders));
+                localStorage.setItem(STORAGE_KEYS.CART, JSON.stringify(remainingCart));
+
+                // Show success
+                document.getElementById('checkout-verifying').style.display = 'none';
+                document.getElementById('checkout-success').style.display = 'block';
+            }, 2000); // 2 second mock verification
         });
 
         function closeSuccessAndGoToOrders() {
@@ -666,6 +895,5 @@
             renderOrders();
         });
     </script>
-    <script src="auth.js"></script>
 </body>
 </html>
