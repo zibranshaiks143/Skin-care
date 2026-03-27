@@ -375,7 +375,6 @@ function closeProductModal() {
 function initProductCards() {
     const cards = document.querySelectorAll('.square-card, .product-card');
     cards.forEach(card => {
-        // Prevent duplicate wrappers if init is called twice
         if (card.querySelector('.clickable-wrapper')) return;
 
         const img = card.querySelector('img');
@@ -400,12 +399,23 @@ function initProductCards() {
                 wrapper.style.flexDirection = 'column';
                 wrapper.style.flexGrow = '1';
                 wrapper.style.alignItems = 'center';
+                wrapper.style.width = '100%';
                 wrapper.onclick = () => openProductModal(name, price, image, size);
                 
-                if (badge) wrapper.appendChild(badge);
-                wrapper.appendChild(img);
-                wrapper.appendChild(title);
+                // Collect elements to wrap
+                const elementsToWrap = [];
+                for (let child of Array.from(card.childNodes)) {
+                    if (child.nodeType === Node.ELEMENT_NODE) {
+                        if (child.classList.contains('card-footer') || child.classList.contains('price') || child.tagName === 'BUTTON' || child.tagName === 'P') {
+                            continue; // Skip footer, price, button, and description
+                        }
+                    }
+                    if (child.tagName !== 'BUTTON') {
+                        elementsToWrap.push(child);
+                    }
+                }
                 
+                elementsToWrap.forEach(el => wrapper.appendChild(el));
                 card.insertBefore(wrapper, card.firstChild);
             }
         }
